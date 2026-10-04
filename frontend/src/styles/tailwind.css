@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+.heading {
+  @apply font-black text-[28px] md:text-[32px];
+}
+
+.title {
+  @apply font-black text-2xl md:text-[28px];
+}
+
+.subTitle {
+  @apply font-bold text-xl md:text-2xl;
+}
+
+.paragraph {
+  @apply text-base md:text-xl;
+}
+
+.subParagraph {
+  @apply text-sm md:text-base;
+}
+
+.small {
+  @apply text-xs md:text-sm;
+}
