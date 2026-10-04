@@ -16,7 +16,6 @@
 
 html {
   font-family: "Noto sans KR";
-  font-size: 10px;
   background: var(--white);
   color: var(--black);
 }
@@ -27,8 +26,8 @@ button {
 }
 
 svg {
-  width: 2rem;
-  height: 2rem;
+  width: 20px;
+  height: 20px;
 }
 
 input:focus,
