@@ -1,4 +1,4 @@
-import unknownIcon from "../../../public/icons/unkown.webp";
+import unknownIcon from "/icons/unkown.webp";
 
 export function ContentSkeleton() {
   return (

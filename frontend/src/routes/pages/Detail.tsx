@@ -1,8 +1,8 @@
 import { useParams } from "react-router";
 import { useQueryHook, useOneQueryHook } from "../../hook/useQueryHook";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import RelateList from "../../components/detail/RelateList";
-// import ContentList from "../../components/common/ContentList";
+import PageSkeleton from "../../components/detail/PageSkeleton";
 
 export default function Detail() {
   const imgurl = import.meta.env.VITE_IMG_URL;
@@ -11,6 +11,13 @@ export default function Detail() {
   const { data: content, isFetching } = useOneQueryHook({
     id: id,
   });
+  const [prevId, setPrevId] = useState("");
+  const [isImgLoaded, setIsImgLoaded] = useState(false);
+
+  if (prevId !== id) {
+    setPrevId(id!);
+    setIsImgLoaded(false);
+  }
 
   const firstSeries = useMemo(() => {
     if (series && content) {
@@ -18,19 +25,18 @@ export default function Detail() {
     }
   }, [series, content]);
 
-  if (isFetching || !content) return <h1>로딩중...</h1>;
-
-  console.log(content);
-  console.log(series);
+  if (isFetching || !content) return <PageSkeleton />;
 
   return (
     <>
+      {!isImgLoaded && <PageSkeleton />}
       {/* hero */}
       <section className="bg-(--cream)">
         <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row">
           {/* img */}
           <div className="flex-2 p-5 flex justify-center items-center ">
             <img
+              onLoad={() => setIsImgLoaded(true)}
               src={`${imgurl}${content.img}`}
               alt={content.name}
               className="w-[65%] object-cover "
@@ -77,7 +83,7 @@ export default function Detail() {
       </section>
 
       {/* 정보 레이아웃 */}
-      <div className="relative w-full max-w-7xl mx-auto p-4 grid grid-cols-1 md:grid-cols-4 gap-10 items-start">
+      <div className="relative w-full max-w-7xl mx-auto px-5 py-10 grid grid-cols-1 md:grid-cols-4 gap-10 items-start">
         {/* 사이드 정보: side */}
         <div className="md:col-satrt-4 md:col-sapn-1 md:row-start-1 md:sticky md:top-5 flex flex-col gap-5">
           {/* 개체 정보 */}
@@ -264,99 +270,84 @@ export default function Detail() {
 
               <table className="w-full table-fixed border border-(--lgrey)">
                 <thead className="bg-(--cream) border-b border-(--lgrey)">
-                  <th className="py-2.5 subParagraph">부위</th>
-                  <th className="py-2.5">
-                    <img
-                      src="/icons/참격.png"
-                      alt="참격"
-                      className="w-8 block mx-auto"
-                    />
-                  </th>
-                  <th className="py-2.5">
-                    <img
-                      src="/icons/타격.png"
-                      alt="타격"
-                      className="w-8 block mx-auto"
-                    />
-                  </th>
-                  <th className="py-2.5">
-                    <img
-                      src="/icons/탄활.png"
-                      alt="탄/활"
-                      className="w-8 block mx-auto"
-                    />
-                  </th>
-                  <th className="py-2.5">
-                    <img
-                      src="/icons/화.png"
-                      alt="화속성"
-                      className="w-8 block mx-auto"
-                    />
-                  </th>
-                  <th className="py-2.5">
-                    <img
-                      src="/icons/수.png"
-                      alt="수속성"
-                      className="w-8 block mx-auto"
-                    />
-                  </th>
-                  <th className="py-2.5">
-                    <img
-                      src="/icons/뇌.png"
-                      alt="뇌속성"
-                      className="w-8 block mx-auto"
-                    />
-                  </th>
-                  <th className="py-2.5">
-                    <img
-                      src="/icons/빙.png"
-                      alt="빙속성"
-                      className="w-8 block mx-auto"
-                    />
-                  </th>
-                  <th className="py-2.5">
-                    <img
-                      src="/icons/용.png"
-                      alt="용속성"
-                      className="w-8 block mx-auto"
-                    />
-                  </th>
+                  <tr>
+                    <th className="py-2.5 subParagraph">부위</th>
+                    <th className="py-2.5">
+                      <img
+                        src="/icons/참격.png"
+                        alt="참격"
+                        className="w-8 block mx-auto"
+                      />
+                    </th>
+                    <th className="py-2.5">
+                      <img
+                        src="/icons/타격.png"
+                        alt="타격"
+                        className="w-8 block mx-auto"
+                      />
+                    </th>
+                    <th className="py-2.5">
+                      <img
+                        src="/icons/탄활.png"
+                        alt="탄/활"
+                        className="w-8 block mx-auto"
+                      />
+                    </th>
+                    <th className="py-2.5">
+                      <img
+                        src="/icons/화.png"
+                        alt="화속성"
+                        className="w-8 block mx-auto"
+                      />
+                    </th>
+                    <th className="py-2.5">
+                      <img
+                        src="/icons/수.png"
+                        alt="수속성"
+                        className="w-8 block mx-auto"
+                      />
+                    </th>
+                    <th className="py-2.5">
+                      <img
+                        src="/icons/뇌.png"
+                        alt="뇌속성"
+                        className="w-8 block mx-auto"
+                      />
+                    </th>
+                    <th className="py-2.5">
+                      <img
+                        src="/icons/빙.png"
+                        alt="빙속성"
+                        className="w-8 block mx-auto"
+                      />
+                    </th>
+                    <th className="py-2.5">
+                      <img
+                        src="/icons/용.png"
+                        alt="용속성"
+                        className="w-8 block mx-auto"
+                      />
+                    </th>
+                  </tr>
                 </thead>
 
                 <tbody>
-                  {content.weak.map(
-                    (
-                      wk: {
-                        부위: string;
-                        참격: string;
-                        타격: string;
-                        "탄/활": string;
-                        화: string;
-                        수: string;
-                        뇌: string;
-                        빙: string;
-                        용: string;
-                      },
-                      index: number,
-                    ) => (
-                      <tr
-                        key={index}
-                        className="border-b border-(--lgrey) hover:bg-(--cream) duration-500">
-                        {Object.entries(wk).map(([key, value]) => (
-                          <td key={key} className="text-center py-2.5">
-                            <p className="small">
-                              {String(value).split("/")[0]}
-                            </p>
-                            {String(value).split("/")[1] && (
-                              <span className="small text-(--grey)">
-                                {String(value).split("/")[1]}
-                              </span>
-                            )}
-                          </td>
-                        ))}
-                      </tr>
-                    ),
-                  )}
+                  {content.weak.map((wk: Weak, index: number) => (
+                    <tr
+                      key={index}
+                      className="border-b border-(--lgrey) hover:bg-(--cream) duration-500">
+                      {Object.entries(wk).map(([key, value]) => (
+                        <td key={key} className="text-center py-2.5">
+                          <p className="small">{String(value).split("/")[0]}</p>
+                          {String(value).split("/")[1] && (
+                            <span className="small text-(--grey)">
+                              {String(value).split("/")[1]}
+                            </span>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </section>

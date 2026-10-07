@@ -4,7 +4,7 @@ import RelateItem from "./RelateItem";
 export default function RelateList({
   list,
 }: {
-  list: { id: string; icon: string; name: string }[];
+  list: Relate[];
 }) {
   return (
     <ul className="grid grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5">

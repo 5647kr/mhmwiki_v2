@@ -42,21 +42,27 @@ interface Content {
   shock: boolean;
   pitfall: boolean;
   break: string[];
-  weak: {
-    부위: string;
-    참격: string;
-    타격: string;
-    "탄/활": string;
-    화: string;
-    수: string;
-    뇌: string;
-    빙: string;
-    용: string;
-  }[];
-  relate: {
-    id: string;
-    icon: string[];
-    name: string;
-  }[];
+  weak: Weak[];
+  relate: Relate[];
   eco: string[];
+}
+
+interface Weak {
+  부위: string;
+  참격: string;
+  타격: string;
+  "탄/활": string;
+  화: string;
+  수: string;
+  뇌: string;
+  빙: string;
+  용: string;
+}
+
+interface Relate {
+  id: string;
+  icon: string[];
+  name: string;
+  type: string;
+  species: string;
 }
