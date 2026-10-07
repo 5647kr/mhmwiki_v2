@@ -31,7 +31,7 @@ export function ContentSkeleton() {
 
 export function ContentSkeletonList() {
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
+    <ul className="grid grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5">
       {Array.from({ length: 20 }).map((_, index) => (
         <li key={index}>
           <ContentSkeleton />

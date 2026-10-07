@@ -6,10 +6,10 @@ export default function ContentList({
   ref,
 }: {
   contents: Content[];
-  ref: (node?: Element | null | undefined) => void;
+  ref?: (node?: Element | null | undefined) => void;
 }) {
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5">
+    <ul className="grid grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5">
       {contents.map((content, index: number) => (
         <li
           key={content.id}

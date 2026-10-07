@@ -1,13 +1,13 @@
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
-import { useQueryHook } from "../../hook/useQueryHook";
+import { useOneQueryHook } from "../../hook/useQueryHook";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
 export default function Search() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
-  const { data } = useQueryHook({
+  const { data } = useOneQueryHook({
     search: input,
   });
 
