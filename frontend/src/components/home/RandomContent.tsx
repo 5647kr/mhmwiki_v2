@@ -1,6 +1,6 @@
 import { ArrowRight, RotateCw } from "lucide-react";
 import { Link } from "react-router";
-import { useQueryHook } from "../../hook/useQueryHook";
+import { useOneQueryHook } from "../../hook/useQueryHook";
 import unknownIcon from "../../../public/icons/unkown.webp";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ export default function RandomContent({
 }: {
   totalContent: number;
 }) {
-  const { data, isFetching, refetch } = useQueryHook({
+  const { data, isFetching, refetch } = useOneQueryHook({
     randomNum: totalContent,
   });
   const [isRefetching, setIsRefetching] = useState(false);

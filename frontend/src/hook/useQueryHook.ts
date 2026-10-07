@@ -25,7 +25,16 @@ export function useQueriesHook() {
   return { series, type, weak };
 }
 
-export function useQueryHook({
+export function useQueryHook({ table }: { table: string }) {
+  return useQuery({
+    queryKey: [table],
+    queryFn: () => fetchData(table),
+    staleTime: Infinity,
+    enabled: !!table,
+  });
+}
+
+export function useOneQueryHook({
   id,
   search,
   randomNum,
