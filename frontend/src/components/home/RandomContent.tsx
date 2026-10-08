@@ -2,15 +2,11 @@ import { ArrowRight, RotateCw } from "lucide-react";
 import { Link } from "react-router";
 import { useOneQueryHook } from "../../hook/useQueryHook";
 import unknownIcon from "../../../public/icons/unkown.webp";
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function RandomContent({
-  totalContent,
-}: {
-  totalContent: number;
-}) {
+export default React.memo(function RandomContent() {
   const { data, isFetching, refetch } = useOneQueryHook({
-    randomNum: totalContent,
+    randomNum: 249,
   });
   const [isRefetching, setIsRefetching] = useState(false);
   const imgUrl = import.meta.env.VITE_IMG_URL;
@@ -90,4 +86,4 @@ export default function RandomContent({
       </div>
     </div>
   );
-}
+});

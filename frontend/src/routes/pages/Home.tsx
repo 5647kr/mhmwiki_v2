@@ -99,7 +99,7 @@ export default function Home() {
             </div>
           </div>
           {/* today monster */}
-          <RandomContent totalContent={totalContent!} />
+          <RandomContent />
         </div>
       </section>
 
@@ -116,7 +116,7 @@ export default function Home() {
           <div className="flex items-end gap-2.5 mt-5 mb-10">
             <h4 className="subTitle">대형 몬스터</h4>
             <span className="small text-(--grey)">
-              검색 결과: {status === "pending" ? 0 : contentLength?.[0]}종
+              검색 결과: {status === "pending" ? 0 : totalContent}종
             </span>
           </div>
 
