@@ -1,8 +1,26 @@
 const baseurl = import.meta.env.VITE_BASIC_URL;
 
-export async function fetchData(table: string) {
+export async function fetchData({
+  table,
+  sort,
+  order,
+}: {
+  table: string;
+  sort?: string;
+  order?: string;
+}) {
   try {
-    const response = await fetch(`${baseurl}${table}`);
+    let url = `${baseurl}${table}`;
+
+    if (sort) {
+      url = `${url}?_sort=${sort}`;
+    }
+
+    if (order) {
+      url = `${url}&_order=${order}`;
+    }
+
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error("fetch 실패");

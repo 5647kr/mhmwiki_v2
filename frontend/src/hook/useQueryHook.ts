@@ -6,17 +6,17 @@ export function useQueriesHook() {
     queries: [
       {
         queryKey: ["series"],
-        queryFn: () => fetchData("series"),
+        queryFn: () => fetchData({ table: "series" }),
         staleTime: Infinity,
       },
       {
         queryKey: ["type"],
-        queryFn: () => fetchData("type"),
+        queryFn: () => fetchData({ table: "type" }),
         staleTime: Infinity,
       },
       {
         queryKey: ["weak"],
-        queryFn: () => fetchData("weak"),
+        queryFn: () => fetchData({ table: "weak" }),
         staleTime: Infinity,
       },
     ],
@@ -25,10 +25,18 @@ export function useQueriesHook() {
   return { series, type, weak };
 }
 
-export function useQueryHook({ table }: { table: string }) {
+export function useQueryHook({
+  table,
+  sort,
+  order,
+}: {
+  table: string;
+  sort?: string;
+  order?: string;
+}) {
   return useQuery({
     queryKey: [table],
-    queryFn: () => fetchData(table),
+    queryFn: () => fetchData({ table, sort, order }),
     staleTime: Infinity,
     enabled: !!table,
   });
