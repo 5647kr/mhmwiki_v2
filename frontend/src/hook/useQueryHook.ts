@@ -29,16 +29,33 @@ export function useQueryHook({
   table,
   sort,
   order,
+  custom,
 }: {
   table: string;
   sort?: string;
   order?: string;
+  custom?: { series: string[]; type: string[] };
 }) {
   return useQuery({
     queryKey: [table],
-    queryFn: () => fetchData({ table, sort, order }),
+    queryFn: () => fetchData({ table, sort, order, custom }),
     staleTime: Infinity,
-    enabled: !!table,
+    enabled: !!table || !!sort || !!order || !!custom,
+  });
+}
+
+export function useWorldCupQueryHook({
+  table,
+  custom,
+}: {
+  table: string;
+  custom: { series: string[]; type: string[] };
+}) {
+  return useQuery({
+    queryKey: [table, custom],
+    queryFn: () => fetchData({ table, custom }),
+    staleTime: Infinity,
+    enabled: !!table && !!custom,
   });
 }
 

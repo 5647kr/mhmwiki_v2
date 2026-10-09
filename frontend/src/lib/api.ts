@@ -4,23 +4,37 @@ export async function fetchData({
   table,
   sort,
   order,
+  custom,
 }: {
   table: string;
   sort?: string;
   order?: string;
+  custom?: { series: string[]; type: string[] };
 }) {
   try {
-    let url = `${baseurl}${table}`;
+    const url = new URL(`${baseurl}${table}`);
 
     if (sort) {
-      url = `${url}?_sort=${sort}`;
+      url.searchParams.append("_sort", sort);
     }
-
     if (order) {
-      url = `${url}&_order=${order}`;
+      url.searchParams.append("_order", order);
     }
 
-    const response = await fetch(url);
+    if (custom) {
+      if (custom.series) {
+        custom.series.forEach((series) =>
+          url.searchParams.append("allSeriesIds_like", series),
+        );
+      }
+      if (custom.type) {
+        custom.type.forEach((type) =>
+          url.searchParams.append("type_like", `^${type}`),
+        );
+      }
+    }
+
+    const response = await fetch(url.toString());
 
     if (!response.ok) {
       throw new Error("fetch 실패");

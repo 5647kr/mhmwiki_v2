@@ -6,7 +6,7 @@ import History from "./routes/pages/History";
 import Roulette from "./routes/pages/Roulette";
 import Tier from "./routes/pages/Tier";
 import Inquiry from "./routes/pages/Inquiry";
-import HistorySkeleton from "./components/history/HistorySkeleton";
+import WorldCup from "./routes/pages/WorldCup";
 
 const router = createBrowserRouter([
   {
@@ -16,9 +16,9 @@ const router = createBrowserRouter([
       { path: "/", Component: Home },
       { path: "/monster/:id", Component: Detail },
       { path: "/history", Component: History },
-      { path: "/history/1", Component: HistorySkeleton },
       { path: "/roulette", Component: Roulette },
       { path: "/tier", Component: Tier },
+      { path: "/worldcup", Component: WorldCup },
       { path: "/inquiry", Component: Inquiry },
     ],
   },
