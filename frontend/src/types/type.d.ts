@@ -72,3 +72,8 @@ interface RouletteItem {
   weight: number;
   color: string;
 }
+
+interface TierItem {
+  img: string;
+  name: string;
+}
