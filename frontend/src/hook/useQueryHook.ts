@@ -59,6 +59,20 @@ export function useWorldCupQueryHook({
   });
 }
 
+export function useRouletteQueryHook({
+  table,
+  seriesId = "r",
+}: {
+  table: string;
+  seriesId?: string;
+}) {
+  return useQuery({
+    queryKey: [table, seriesId],
+    queryFn: () => fetchData({ table, seriesId }),
+    staleTime: Infinity,
+  });
+}
+
 export function useOneQueryHook({
   id,
   search,
