@@ -5,11 +5,13 @@ export async function fetchData({
   sort,
   order,
   custom,
+  seriesId,
 }: {
   table: string;
   sort?: string;
   order?: string;
   custom?: { series: string[]; type: string[] };
+  seriesId?: string;
 }) {
   try {
     const url = new URL(`${baseurl}${table}`);
@@ -23,6 +25,7 @@ export async function fetchData({
 
     if (custom) {
       if (custom.series) {
+        console.log(custom.series);
         custom.series.forEach((series) =>
           url.searchParams.append("allSeriesIds_like", series),
         );
@@ -32,6 +35,12 @@ export async function fetchData({
           url.searchParams.append("type_like", `^${type}`),
         );
       }
+    }
+
+    if (seriesId) {
+      if (seriesId === "전체") return;
+
+      url.searchParams.append("allSeriesIds_like", seriesId);
     }
 
     const response = await fetch(url.toString());

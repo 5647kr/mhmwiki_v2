@@ -66,3 +66,9 @@ interface Relate {
   type: string;
   species: string;
 }
+
+interface RouletteItem {
+  name: string;
+  weight: number;
+  color: string;
+}
