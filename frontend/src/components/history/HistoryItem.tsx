@@ -8,7 +8,6 @@ export default React.memo(function HistoryItem({
   index: number;
 }) {
   const imgUrl = import.meta.env.VITE_IMG_URL;
-  console.log(content);
   return (
     <div className="flex gap-5">
       {/* nav */}

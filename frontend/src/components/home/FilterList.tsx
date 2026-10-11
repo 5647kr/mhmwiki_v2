@@ -12,6 +12,7 @@ export default function FilterList({
   const resetFilterState = useFilterStore((state) => state.resetFilterState);
 
   const isAllSelected = filterState[table].length === 0;
+
   return (
     <ul className="grid grid-cols-3 gap-5 md:flex md:flex-wrap">
       <li className="w-full md:w-30">

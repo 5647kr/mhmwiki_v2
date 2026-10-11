@@ -1,14 +1,18 @@
 import { useParams } from "react-router";
-import { useQueryHook, useOneQueryHook } from "../../hook/useQueryHook";
 import { useMemo, useState } from "react";
 import RelateList from "../../components/detail/RelateList";
 import PageSkeleton from "../../components/detail/PageSkeleton";
+import { useOneContentQuery } from "../../hooks/useContentQuery";
+import useMetaQueries from "../../hooks/useMetaQueries";
 
 export default function Detail() {
   const imgurl = import.meta.env.VITE_IMG_URL;
   const { id } = useParams();
-  const { data: series } = useQueryHook({ table: "series" });
-  const { data: content, isFetching } = useOneQueryHook({
+  const { series } = useMetaQueries({
+    enableType: false,
+    enableWeak: false,
+  });
+  const { data: content, isFetching } = useOneContentQuery({
     id: id,
   });
   const [prevId, setPrevId] = useState("");
@@ -21,7 +25,9 @@ export default function Detail() {
 
   const firstSeries = useMemo(() => {
     if (series && content) {
-      return series.find((item: Series) => item.id === content.allSeriesIds[0]);
+      return series.data.find(
+        (item: Series) => item.id === content.allSeriesIds[0],
+      );
     }
   }, [series, content]);
 
@@ -232,7 +238,7 @@ export default function Detail() {
                     </div>
 
                     <ol className="py-5 flex gap-2.5 flex-wrap">
-                      {series
+                      {series.data
                         .filter(
                           (item: Series) =>
                             parseInt(item.series) === generation,

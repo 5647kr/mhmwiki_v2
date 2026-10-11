@@ -1,8 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { useWorldCupStore } from "../../store/worldcupStore";
-import { useQueriesHook } from "../../hook/useQueryHook";
 
 import FilterList from "../worldcup/FilterList";
+import useMetaQueries from "../../hooks/useMetaQueries";
 
 export default function Settings({
   contentsLength,
@@ -17,7 +17,9 @@ export default function Settings({
   const handleRound = useWorldCupStore((state) => state.handleRound);
   const handleStatus = useWorldCupStore((state) => state.handleStatus);
 
-  const { series, type } = useQueriesHook();
+  const { series, type } = useMetaQueries({
+    enableWeak: false,
+  });
 
   return (
     <>

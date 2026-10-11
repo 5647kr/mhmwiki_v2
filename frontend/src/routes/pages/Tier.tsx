@@ -3,8 +3,9 @@ import TierList from "../../components/tier/TierList";
 import TierType from "../../components/tier/TierType";
 import { DragDropProvider } from "@dnd-kit/react";
 import { useTierStore } from "../../store/tierStore";
-import { useQueryHook } from "../../hook/useQueryHook";
 import { useMemo } from "react";
+import { useCustomQuery } from "../../hooks/useContentQuery";
+import useMetaQueries from "../../hooks/useMetaQueries";
 
 const WEAPONLIST = [
   "대검",
@@ -27,11 +28,14 @@ export default function Tier() {
   const tierType = useTierStore((state) => state.tierType);
   // const setTierItems = useTierStore((state) => state.setTierItems);
   // const tierItems = useTierStore((state) => state.tierItems);
-  const { data: series } = useQueryHook({
-    table: "series",
+  const { series } = useMetaQueries({
+    enableType: false,
+    enableWeak: false,
   });
-  const { data: contents } = useQueryHook({
-    table: "monster",
+
+  const { data: contents } = useCustomQuery({
+    type: "tier",
+    // custom: custom,
   });
 
   const items = useMemo(() => {
@@ -49,20 +53,16 @@ export default function Tier() {
       }));
     }
 
-    // tierType === "series" (또는 기본값)
-    return (series ?? []).map((item: Series) => ({
-      name: item.koTitle,
+    return series.data.map((item: Series) => ({
+      name: item.title,
       img: `${imgUrl}${item.id}.webp`,
     }));
   }, [tierType, contents, series, imgUrl]);
-
-  console.log(items);
 
   return (
     <>
       {/* title */}
       <section className="py-10 bg-(--cream)">
-        {/* title */}
         <div className="w-full max-w-7xl mx-auto px-5">
           <h2 className="heading mb-5">티어표 만들기</h2>
           <p className="paragraph text-(--grey) mt-2.5">
@@ -75,12 +75,14 @@ export default function Tier() {
       {/* 주제 고르기 */}
       <TierType />
 
-      <DragDropProvider>
-        {/* 티어표 */}
-        <TierDisplay />
-        {/* 티어 아이템 */}
-        <TierList items={items} />
-      </DragDropProvider>
+      <div className="w-full max-w-7xl mx-auto px-5 inset-shadow-[0_0_10px_blue]">
+        <DragDropProvider>
+          {/* 티어표 */}
+          <TierDisplay />
+          {/* 티어 아이템 */}
+          <TierList items={items} />
+        </DragDropProvider>
+      </div>
     </>
   );
 }

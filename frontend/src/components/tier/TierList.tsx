@@ -7,7 +7,7 @@ export default function TierList({
   items: { img: string; name: string }[];
 }) {
   return (
-    <ul>
+    <ul className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5">
       {items.map((item) => (
         <li key={item.name}>
           <TierItem item={item} />

@@ -6,9 +6,6 @@ interface TierStore {
 
   tierType: string;
   setTierType: (type: string) => void;
-
-  contentType: string;
-  setContentType: (type: string) => void;
 }
 
 export const useTierStore = create<TierStore>()((set) => ({
@@ -21,7 +18,4 @@ export const useTierStore = create<TierStore>()((set) => ({
   tierType: "series",
 
   setTierType: (type) => set({ tierType: type }),
-
-  contentType: "",
-  setContentType: (type) => set({ contentType: type }),
 }));

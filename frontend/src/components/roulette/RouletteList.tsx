@@ -1,5 +1,5 @@
-import { X } from "lucide-react";
 import { useRouletteStore } from "../../store/rouletteStore";
+import RouletteItem from "./RouletteItem";
 
 export default function RouletteList({
   isProcessing,
@@ -8,9 +8,6 @@ export default function RouletteList({
 }) {
   const rouletteItems = useRouletteStore((state) => state.rouletteItems);
   const addItem = useRouletteStore((state) => state.addItem);
-  const removeItem = useRouletteStore((state) => state.removeItem);
-  const updateName = useRouletteStore((state) => state.updateName);
-  const updateWeight = useRouletteStore((state) => state.updateWeight);
 
   return (
     <div className="flex-1">
@@ -25,36 +22,11 @@ export default function RouletteList({
         </button>
       </div>
 
-      <div className="max-h-[calc(100vh-160px)] pr-2.5 overflow-y-auto py-2.5">
+      <div>
         <ul className="flex flex-col gap-5">
           {rouletteItems.map((item, idx) => (
-            <li className="flex items-center gap-2.5 w-full" key={idx}>
-              <div
-                className="w-2.5 h-2.5 rounded-[50%]"
-                style={{
-                  backgroundColor: item.color,
-                }}
-              />
-              <input
-                type="text"
-                value={item.name}
-                onChange={(e) => updateName(idx, e.target.value)}
-                className="paragraph flex-1 bg-transparent border-b border-(--lgrey) focus:outline-0"
-              />
-              <input
-                type="number"
-                value={item.weight}
-                onChange={(e) => updateWeight(idx, e.target.value)}
-                disabled={isProcessing}
-                className="w-10 focus:outline-0 border-0 text-center small bg-(--cream)"
-              />
-              <button
-                type="button"
-                disabled={isProcessing}
-                onClick={() => removeItem(idx)}
-                className="cursor-pointer">
-                <X className="w-5 lg:w-5 h-5 lg:h-6" />
-              </button>
+            <li className="w-full" key={idx}>
+              <RouletteItem item={item} isProcessing={isProcessing} idx={idx} />
             </li>
           ))}
         </ul>

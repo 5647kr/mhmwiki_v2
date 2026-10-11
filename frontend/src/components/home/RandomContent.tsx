@@ -1,11 +1,11 @@
 import { ArrowRight, RotateCw } from "lucide-react";
 import { Link } from "react-router";
-import { useOneQueryHook } from "../../hook/useQueryHook";
-import unknownIcon from "../../../public/icons/unkown.webp";
+import unknownIcon from "/icons/unkown.webp";
 import React, { useState } from "react";
+import { useOneContentQuery } from "../../hooks/useContentQuery";
 
 export default React.memo(function RandomContent() {
-  const { data, isFetching, refetch } = useOneQueryHook({
+  const { data, isFetching, refetch } = useOneContentQuery({
     randomNum: 249,
   });
   const [isRefetching, setIsRefetching] = useState(false);
