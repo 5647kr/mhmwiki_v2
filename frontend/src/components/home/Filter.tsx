@@ -1,8 +1,8 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
-import { useQueriesHook } from "../../hook/useQueryHook";
 import { useFilterStore } from "../../store/filterStore";
 import FilterList from "./FilterList";
+import useMetaQueries from "../../hooks/useMetaQueries";
 
 export default function Filter() {
   const filterState = useFilterStore((state) => state.filterState);
@@ -13,7 +13,7 @@ export default function Filter() {
     setFilterActive((filterActive) => !filterActive);
   };
 
-  const { series, type, weak } = useQueriesHook();
+  const { series, type, weak } = useMetaQueries();
 
   return (
     <>

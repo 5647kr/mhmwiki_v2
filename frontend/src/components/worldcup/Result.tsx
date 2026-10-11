@@ -6,7 +6,6 @@ export default function Result() {
   const handleStatus = useWorldCupStore((state) => state.handleStatus);
   const imgUrl = import.meta.env.VITE_IMG_URL;
 
-  console.log(winner);
   return (
     <>
       <div className="flex flex-col items-center gap-10">

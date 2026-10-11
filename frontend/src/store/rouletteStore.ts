@@ -7,7 +7,8 @@ interface RouletteStore {
   addItem: () => void;
   removeItem: (index: number) => void;
   updateName: (index: number, value: string) => void;
-  updateWeight: (index: number, value: string) => void;
+  increaseWeight: (index: number) => void;
+  decreaseWeight: (index: number) => void;
 }
 
 export const useRouletteStore = create<RouletteStore>()((set) => ({
@@ -45,18 +46,23 @@ export const useRouletteStore = create<RouletteStore>()((set) => ({
   updateName: (index: number, value: string) => {
     set((state) => ({
       rouletteItems: state.rouletteItems.map((item, i) =>
-        i === index ? { ...item, value } : item,
+        i === index ? { ...item, name: value } : item,
       ),
     }));
   },
 
-  updateWeight: (index: number, value: string) => {
-    let num = parseInt(value);
-    if (isNaN(num) || num < 1) num = 1;
-
+  increaseWeight: (index: number) => {
     set((state) => ({
       rouletteItems: state.rouletteItems.map((item, i) =>
-        i === index ? { ...item, weight: num } : item,
+        i === index ? { ...item, weight: item.weight + 1 } : item,
+      ),
+    }));
+  },
+
+  decreaseWeight: (index: number) => {
+    set((state) => ({
+      rouletteItems: state.rouletteItems.map((item, i) =>
+        i === index ? { ...item, weight: item.weight - 1 } : item,
       ),
     }));
   },

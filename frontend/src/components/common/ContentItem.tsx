@@ -1,4 +1,4 @@
-import unknownIcon from "../../../public/icons/unkown.webp";
+import unknownIcon from "/icons/unkown.webp";
 import React from "react";
 
 export default React.memo(function ContentItem({

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useWorldCupStore } from "../../store/worldcupStore";
-import shuffle from "../../lib/shuffle";
+import shuffle from "../../utils/shuffle";
 import MatchItem from "./MatchItem";
 
 export default function Progress({ contents }: { contents: Content[] }) {
@@ -104,12 +104,12 @@ export default function Progress({ contents }: { contents: Content[] }) {
           content={contentA}
           handleSelectWinner={handleSelectWinner}
           isByeMatch={isByeMatch}
-          />
+        />
 
         {/* 몬스터 B 카드 OR 부전승 안내 카드 */}
         {contentB ? (
           <MatchItem
-          key={contentB.id}
+            key={contentB.id}
             content={contentB}
             handleSelectWinner={handleSelectWinner}
             isByeMatch={isByeMatch}

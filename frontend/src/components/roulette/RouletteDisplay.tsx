@@ -151,7 +151,7 @@ export default function RouletteDisplay({
       cumulativeDeg += itemDeg;
     }
 
-    toast.success(`🎯 당첨: ${winner || "없음"}`);
+    window.alert(`🎯 당첨: ${winner || "없음"}`);
   };
 
   // 초기화 버튼 동작 (예시)
@@ -165,54 +165,58 @@ export default function RouletteDisplay({
   };
 
   return (
-    <div className="flex flex-col flex-1 gap-5">
-      <div className="relative flex items-center justify-center w-full p-10 aspect-square">
-        <div className="absolute top-5 z-30 text-[#E63946] text-[30px]">▼</div>
-
-        {/* 룰렛 검은 테두리 배경 */}
-        <div className="w-full aspect-square rounded-[50%] border-10 border-[#1F2937] overflow-hidden relative box-border">
-          <div
-            className="w-full h-full rounded-[50%]"
-            ref={wheelRef}
-            style={{
-              background: gradientStr,
-            }}>
-            {labels.map((label, index) => (
-              <div
-                key={`${label.name}-${index}`}
-                className="absolute top-0 left-0 w-full h-full"
-                style={{
-                  transform: `rotate(${label.rotation}deg)`,
-                }}>
-                <div className="absolute top-6 left-[50%] transform translate-x-[-50%] w-17.5 text-center pointer-events-none">
-                  <span className="subParagraph break-keep drop-shadow-sm">
-                    {label.name}
-                  </span>
-                </div>
-              </div>
-            ))}
+    <div className="relative flex-1">
+      <div className="flex flex-col gap-5 sticky top-0 left-0">
+        <div className="relative flex items-center justify-center w-full p-10 aspect-square">
+          <div className="absolute top-5 z-30 text-[#E63946] text-[30px]">
+            ▼
           </div>
 
-          {/* 룰렛 중앙 원형 핀 */}
-          <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] w-3.5 h-3.5 bg-(--black) border-2 border-(--yellow) rounded-[50%] z-25" />
+          {/* 룰렛 검은 테두리 배경 */}
+          <div className="w-full aspect-square rounded-[50%] border-10 border-[#1F2937] overflow-hidden relative box-border">
+            <div
+              className="w-full h-full rounded-[50%]"
+              ref={wheelRef}
+              style={{
+                background: gradientStr,
+              }}>
+              {labels.map((label, index) => (
+                <div
+                  key={`${label.name}-${index}`}
+                  className="absolute top-0 left-0 w-full h-full"
+                  style={{
+                    transform: `rotate(${label.rotation}deg)`,
+                  }}>
+                  <div className="absolute top-6 left-[50%] transform translate-x-[-50%] w-17.5 text-center pointer-events-none">
+                    <span className="subParagraph break-keep drop-shadow-sm">
+                      {label.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* 룰렛 중앙 원형 핀 */}
+            <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] w-3.5 h-3.5 bg-(--black) border-2 border-(--yellow) rounded-[50%] z-25" />
+          </div>
         </div>
-      </div>
 
-      {/* 룰렛 버튼 그룹 */}
-      <div className="flex gap-2.5 justify-center">
-        <button
-          onClick={handleAction}
-          disabled={btnText === "멈추는 중..."}
-          className="w-full py-2.5 subParagraph cursor-pointer bg-(--black) text-white disabled:bg-(--grey)">
-          {btnText}
-        </button>
+        {/* 룰렛 버튼 그룹 */}
+        <div className="flex gap-2.5 justify-center">
+          <button
+            onClick={handleAction}
+            disabled={btnText === "멈추는 중..."}
+            className="w-full py-2.5 subParagraph cursor-pointer bg-(--black) text-white disabled:bg-(--grey)">
+            {btnText}
+          </button>
 
-        <button
-          onClick={handleReset}
-          disabled={isProcessing}
-          className="w-full py-2.5 subParagraph cursor-pointer bg-(--white) border border-(--red) text-(--red) disabled:opacity-50">
-          초기화
-        </button>
+          <button
+            onClick={handleReset}
+            disabled={isProcessing}
+            className="w-full py-2.5 subParagraph cursor-pointer bg-(--white) border border-(--red) text-(--red) disabled:opacity-50">
+            초기화
+          </button>
+        </div>
       </div>
     </div>
   );

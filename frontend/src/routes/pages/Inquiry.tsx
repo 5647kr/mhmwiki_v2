@@ -8,42 +8,38 @@ import {
   SearchAlert,
   TriangleAlert,
 } from "lucide-react";
-import { useQueryHook } from "../../hook/useQueryHook";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useHistoryQuery } from "../../hooks/useHistoryQuery";
 
 export default function Inquiry() {
   const menus = [
     {
       id: "error",
       title: "오류 수정",
-      desc: `수치, 이름, 속성 등 잘못 표기된 정보`,
+      desc: `수치, 이름, 속성 등\n잘못 표기된 정보`,
       icon: TriangleAlert,
     },
     {
       id: "omit",
       title: "정보 누락",
-      desc: `누락된 몬스터, 출현 시리즈, 약점 데이터 등`,
+      desc: `누락된 몬스터, 출현 시리즈,\n약점 데이터 등`,
       icon: Plus,
     },
     {
       id: "new",
       title: "신규 발견",
-      desc: `미등록 몬스터 또는 새로 확인된 데이터`,
+      desc: `미등록 몬스터 또는\n새로 확인된 데이터`,
       icon: SearchAlert,
     },
     {
       id: "etc",
       title: "기타",
-      desc: `텍스트 오류, 이미지 문제, ui 오류 등`,
+      desc: `텍스트 오류, 이미지 문제,\nui 오류 등`,
       icon: MessageCircleMore,
     },
   ];
-  const { data: series } = useQueryHook({
-    table: "series",
-    sort: "open",
-    order: "asc",
-  });
+  const { data: series } = useHistoryQuery();
   const [reportForm, setReportForm] = useState({
     reportType: "error",
     monster: "",
@@ -163,7 +159,7 @@ export default function Inquiry() {
                       {menu.title}
                     </strong>
                     <p
-                      className={`${isSelected ? "text-(--black)" : "text-(--grey)"} small`}>
+                      className={`whitespace-pre-line ${isSelected ? "text-(--black)" : "text-(--grey)"} small`}>
                       {menu.desc}
                     </p>
                     <input

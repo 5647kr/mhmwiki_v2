@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import RouletteDisplay from "../../components/roulette/RouletteDisplay";
 import RouletteList from "../../components/roulette/RouletteList";
-import { useQueryHook, useRouletteQueryHook } from "../../hook/useQueryHook";
-import { randomColor } from "../../lib/randomColor";
+import { randomColor } from "../../utils/randomColor";
 import { useRouletteStore } from "../../store/rouletteStore";
+import { useRouletteQuery } from "../../hooks/useContentQuery";
+// import useMetaQueries from "../../hooks/useMetaQueries";
+import RouletteType from "../../components/roulette/RouletteType";
 
 const ITEMLIST = [
   "회복아이템 금지",
@@ -37,11 +39,7 @@ export default function Roulette() {
   const [rouletteType, setRouletteType] = useState("monster");
   const [seriesId, setSeriesId] = useState("r");
   const [isProcessing, setIsProcessing] = useState(false);
-  const { data: series } = useQueryHook({
-    table: "series",
-  });
-  const { data: contents } = useRouletteQueryHook({
-    table: "monster",
+  const { data: contents } = useRouletteQuery({
     seriesId: seriesId,
   });
 
@@ -75,63 +73,27 @@ export default function Roulette() {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-5 ">
-      <div className="py-10">
-        <h2 className="heading mb-5">헌터 룰렛</h2>
-        <p className="paragraph mt-2.5 pb-5 border-b border-(--black)">
-          각 룰렛의 항목 수를 조절해 원하는 확률로 사냥 조건을 결정하세요.
-        </p>
-      </div>
+    <>
+      <section className="py-10 bg-(--cream)">
+        <div className="w-full max-w-7xl mx-auto px-5">
+          <h2 className="heading mb-5">헌터 룰렛</h2>
+          <p className="paragraph text-(--grey) mt-2.5">
+            각 룰렛의 항목 수를 조절해 원하는 확률로 사냥 조건을 결정하세요.
+          </p>
+        </div>
+      </section>
+
       {/* 몬스터 & 무기 & 커스텀 */}
-      <div className="flex justify-center">
-        <ul className="flex gap-5">
-          <li className="border border-(--lgrey)">
-            <label
-              className={`flex justify-center items-center p-10 cursor-pointer ${rouletteType === "monster" ? "bg-(--black) text-(--white)" : "bg-(--white) text-(--black)"}`}>
-              <span className="subTitle font-bold">몬스터</span>
-              <input
-                type="radio"
-                name="rouletteType"
-                value="monster"
-                className="a11y-hidden"
-                disabled={isProcessing}
-                onChange={handleRouletteType}
-              />
-            </label>
-          </li>
-          <li className="border border-(--lgrey)">
-            <label
-              className={`flex justify-center items-center p-10 cursor-pointer ${rouletteType === "weapon" ? "bg-(--black) text-(--white)" : "bg-(--white) text-(--black)"}`}>
-              <span className="subTitle font-bold">무기</span>
-              <input
-                type="radio"
-                name="rouletteType"
-                value="weapon"
-                className="a11y-hidden"
-                disabled={isProcessing}
-                onChange={handleRouletteType}
-              />
-            </label>
-          </li>
-          <li className="border border-(--lgrey)">
-            <label
-              className={`flex justify-center items-center p-10 cursor-pointer ${rouletteType === "custom" ? "bg-(--black) text-(--white)" : "bg-(--white) text-(--black)"}`}>
-              <span className="subTitle font-bold">커스텀</span>
-              <input
-                type="radio"
-                name="rouletteType"
-                value="custom"
-                className="a11y-hidden"
-                disabled={isProcessing}
-                onChange={handleRouletteType}
-              />
-            </label>
-          </li>
-        </ul>
-      </div>
+      <RouletteType
+        rouletteType={rouletteType}
+        handleRouletteType={handleRouletteType}
+        seriesId={seriesId}
+        handleSeriesId={handleSeriesId}
+        isProcessing={isProcessing}
+      />
 
       {/* 룰렛 */}
-      <div className="flex flex-col md:flex-row gap-10 py-10 mt-10">
+      <div className="w-full max-w-7xl mx-auto px-5 flex flex-col md:flex-row gap-10 py-10 mt-10">
         <RouletteDisplay
           isProcessing={isProcessing}
           setIsProcessing={setIsProcessing}
@@ -139,19 +101,9 @@ export default function Roulette() {
         />
 
         <div className="flex-1">
-          {rouletteType === "monster" && (
-            <select onChange={handleSeriesId} value={seriesId}>
-              {series?.map((item: Series) => (
-                <option value={item.id} key={item.id}>
-                  {item.title}
-                </option>
-              ))}
-            </select>
-          )}
-
           <RouletteList isProcessing={isProcessing} />
         </div>
       </div>
-    </div>
+    </>
   );
 }

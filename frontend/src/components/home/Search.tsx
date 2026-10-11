@@ -1,13 +1,13 @@
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
-import { useOneQueryHook } from "../../hook/useQueryHook";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import { useOneContentQuery } from "../../hooks/useContentQuery";
 
 export default function Search() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
-  const { data } = useOneQueryHook({
+  const { data } = useOneContentQuery({
     search: input,
   });
 
@@ -22,8 +22,6 @@ export default function Search() {
 
     if (data && data.length > 0) {
       const content = data[0];
-
-      console.log(content);
 
       navigate(`/monster/${content.id}`);
       setInput("");

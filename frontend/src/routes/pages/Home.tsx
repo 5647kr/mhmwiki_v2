@@ -1,6 +1,6 @@
 import Search from "../../components/home/Search";
 import Filter from "../../components/home/Filter";
-import useInfiniteQueryHook from "../../hook/useInfiniteQueryHook";
+import { useContentQuery } from "../../hooks/useContentQuery";
 import { useFilterStore } from "../../store/filterStore";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -13,7 +13,7 @@ export default function Home() {
   const filterState = useFilterStore((state) => state.filterState);
   const resetFilterState = useFilterStore((state) => state.resetFilterState);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQueryHook(filterState);
+    useContentQuery(filterState);
   const { ref, inView } = useInView({ threshold: 0.5 });
 
   const contents: Content[] =
