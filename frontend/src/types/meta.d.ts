@@ -24,7 +24,19 @@ interface RouletteItem {
   color: string;
 }
 
-interface TierItem {
+interface Custom {
+  type: string[];
+  series: string[];
+}
+
+interface Draggable {
+  id: string;
   img: string;
   name: string;
+  dz?: string;
+}
+
+interface DropZone {
+  id: string;
+  draggables: string[];
 }

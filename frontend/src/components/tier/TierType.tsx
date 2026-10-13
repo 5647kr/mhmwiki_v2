@@ -1,4 +1,3 @@
-// import useMetaQueries from "../../hooks/useMetaQueries";
 import { useTierStore } from "../../store/tierStore";
 
 export default function TierType() {
@@ -9,11 +8,8 @@ export default function TierType() {
   ];
   const tierType = useTierStore((state) => state.tierType);
   const setTierType = useTierStore((state) => state.setTierType);
-  // const setContentType = useTierStore((state) => state.setContentType);
-  // const { series, type } = useMetaQueries({
-  //   enableType: false,
-  //   enableWeak: false,
-  // });
+  const addDropZone = useTierStore((state) => state.addDropZone);
+  const removeDropZone = useTierStore((state) => state.removeDropZone);
 
   return (
     <section className="bg-(--white)">
@@ -43,30 +39,21 @@ export default function TierType() {
           })}
         </ul>
 
-        {/* {tierType === "monster" && (
-          <div>
-            <select
-              className="border-b border-(--black) py-2 px-4 small mr-2.5"
-              onChange={(e) => setContentType(e.target.value)}>
-              <option value="전체">시리즈</option>
-              {series.data.map((item: Series) => (
-                <option value={item.id} id={item.id}>
-                  {item.title}
-                </option>
-              ))}
-            </select>
-            <select
-              className="border-b border-(--black) py-2 px-4 small"
-              onChange={(e) => setContentType(e.target.value)}>
-              <option value="전체">종별</option>
-              {type.data.map((item: Type) => (
-                <option value={item.title} id={item.id}>
-                  {item.title}
-                </option>
-              ))}
-            </select>
-          </div>
-        )} */}
+        <div className="flex gap-2.5">
+          <button
+            type="button"
+            onClick={addDropZone}
+            className="px-4 py-2 bg-(--black) text-(--white)  border border-(--black)">
+            등급 추가
+          </button>
+
+          <button
+            type="button"
+            onClick={removeDropZone}
+            className="px-4 py-2 bg-(--white) text-(--black)  border border-(--black)">
+            등급 삭제
+          </button>
+        </div>
       </div>
     </section>
   );

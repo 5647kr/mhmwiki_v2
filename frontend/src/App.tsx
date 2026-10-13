@@ -7,6 +7,7 @@ import Roulette from "./routes/pages/Roulette";
 import Tier from "./routes/pages/Tier";
 import Inquiry from "./routes/pages/Inquiry";
 import WorldCup from "./routes/pages/WorldCup";
+import TierTest from "./routes/pages/TierText";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { path: "/history", Component: History },
       { path: "/roulette", Component: Roulette },
       { path: "/tier", Component: Tier },
+      { path: "/tier/1", Component: TierTest },
       { path: "/worldcup", Component: WorldCup },
       { path: "/inquiry", Component: Inquiry },
     ],
