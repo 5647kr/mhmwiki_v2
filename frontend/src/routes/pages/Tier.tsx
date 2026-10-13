@@ -42,6 +42,7 @@ export default function Tier() {
   const dropZones = useTierStore((state) => state.dropZones);
   const setDropZones = useTierStore((state) => state.setDropZones);
 
+
   const imgUrl = import.meta.env.VITE_IMG_URL;
   const tierType = useTierStore((state) => state.tierType);
   const custom = useTierStore((state) => state.custom);
@@ -246,6 +247,8 @@ export default function Tier() {
 
       {/* 주제 고르기 */}
       <TierType />
+
+
 
       {/* 몬스터 선택 */}
       <div className="mt-5 w-full max-w-7xl mx-auto px-5">

@@ -8,6 +8,8 @@ export default function TierType() {
   ];
   const tierType = useTierStore((state) => state.tierType);
   const setTierType = useTierStore((state) => state.setTierType);
+  const addDropZone = useTierStore((state) => state.addDropZone);
+  const removeDropZone = useTierStore((state) => state.removeDropZone);
 
   return (
     <section className="bg-(--white)">
@@ -36,6 +38,22 @@ export default function TierType() {
             );
           })}
         </ul>
+
+        <div className="flex gap-2.5">
+          <button
+            type="button"
+            onClick={addDropZone}
+            className="px-4 py-2 bg-(--black) text-(--white)  border border-(--black)">
+            등급 추가
+          </button>
+
+          <button
+            type="button"
+            onClick={removeDropZone}
+            className="px-4 py-2 bg-(--white) text-(--black)  border border-(--black)">
+            등급 삭제
+          </button>
+        </div>
       </div>
     </section>
   );

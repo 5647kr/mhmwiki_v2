@@ -6,7 +6,6 @@ export function Draggable({ draggable }: { draggable: Draggable }) {
   const { id } = draggable;
   const { setNodeRef, listeners, attributes, transform, transition } =
     useSortable({ id });
-  const tierType = useTierStore((state) => state.tierType);
 
   const style = {
     transform: transform
@@ -17,9 +16,7 @@ export function Draggable({ draggable }: { draggable: Draggable }) {
 
   return (
     <button
-      className={`group flex justify-center items-center gap-2.5 w-30 ${
-        tierType === "series" ? "aspect-video" : "aspect-square"
-      }`}
+      className="group flex justify-center items-center gap-2.5 w-30"
       ref={setNodeRef}
       style={style}
       {...listeners}
@@ -37,9 +34,9 @@ export function DraggableContent({
   isDragging?: boolean;
 }) {
   const { id, img, name } = draggable;
+  const activeDraggableId = useTierStore((state) => state.activeDraggable)?.id;
 
   const tierType = useTierStore((state) => state.tierType);
-  const activeDraggableId = useTierStore((state) => state.activeDraggable)?.id;
 
   return (
     <div className="relative">
@@ -47,9 +44,7 @@ export function DraggableContent({
         src={img}
         alt={name}
         style={{ opacity: isDragging || activeDraggableId !== id ? 1 : 0.5 }}
-        className={`w-full ${
-          tierType === "series" ? "aspect-video" : "aspect-square"
-        }`}
+        className={`w-full aspect-square ${tierType === "series" ? "object-cover" : "object-contain"}`}
       />
       <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent z-10 flex items-end justify-center pb-2.5">
         <p className="text-(--white) small break-keep">{draggable.name}</p>
