@@ -7,6 +7,7 @@ export default function History() {
 
   return (
     <>
+      <title>MHMWIKI - 연혁</title>
       <section className="py-10 bg-(--cream)">
         <div className="w-full max-w-7xl mx-auto px-5">
           <h2 className="heading mb-5">몬스터 헌터 연혁</h2>

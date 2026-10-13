@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import RelateList from "../../components/detail/RelateList";
 import PageSkeleton from "../../components/detail/PageSkeleton";
 import { useOneContentQuery } from "../../hooks/useContentQuery";
@@ -25,11 +25,17 @@ export default function Detail() {
 
   const firstSeries = useMemo(() => {
     if (series && content) {
-      return series.data.find(
+      return series?.data?.find(
         (item: Series) => item.id === content.allSeriesIds[0],
       );
     }
   }, [series, content]);
+
+  useEffect(() => {
+    if (content) {
+      document.title = `MHMWIKI - ${content.name}`;
+    }
+  }, [content]);
 
   if (isFetching || !content) return <PageSkeleton />;
 
@@ -37,6 +43,7 @@ export default function Detail() {
     <>
       {!isImgLoaded && <PageSkeleton />}
       {/* hero */}
+      <title>MHMWIKI - {content.name}</title>
       <section className="bg-(--cream)">
         <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row">
           {/* img */}
@@ -238,8 +245,8 @@ export default function Detail() {
                     </div>
 
                     <ol className="py-5 flex gap-2.5 flex-wrap">
-                      {series.data
-                        .filter(
+                      {series?.data
+                        ?.filter(
                           (item: Series) =>
                             parseInt(item.series) === generation,
                         )

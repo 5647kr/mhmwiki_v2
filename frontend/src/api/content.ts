@@ -1,4 +1,4 @@
-const baseUrl = import.meta.env.VITE_BASIC_URL;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 // 몬스터 기본 조회: 무한 스크롤
 export async function fetchContent({

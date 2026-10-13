@@ -23,6 +23,7 @@ export default function WorldCup() {
 
   return (
     <>
+      <title>MHMWIKI - 룰렛</title>
       {status === "settings" && (
         <section className="py-10 bg-(--cream)">
           <div className="w-full max-w-7xl mx-auto px-5">
