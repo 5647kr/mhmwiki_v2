@@ -2,26 +2,44 @@ import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Draggable } from "./Draggable";
 
-export default function DropZone({ draggables }: { draggables: Draggable[] }) {
-  const { setNodeRef, isOver } = useDroppable({ id: "dropZone" });
+export default function DropZone({
+  dropZone,
+  defaultDraggables,
+}: {
+  dropZone: DropZone;
+  defaultDraggables: Draggable[];
+}) {
+  const { id, draggables } = dropZone;
+  const { setNodeRef } = useDroppable({ id });
 
-  const style = {
-    backgroundColor: isOver ? "green" : undefined,
+  const dropZoneColorMap = {
+    S: "rgba(255, 127, 127)",
+    A: "rgba(255, 191, 127)",
+    B: "#ffff7f",
+    C: "rgba(127, 255, 127)",
   };
+
+  const backgroundColor = dropZoneColorMap[id as keyof typeof dropZoneColorMap];
+
   return (
-    <div
-      style={style}
-      className="border border-(--white) bg-(--grey) h-30 w-full flex">
+    <div className="border border-(--white) bg-(--grey) h-30 w-full flex">
+      <div
+        style={{ backgroundColor }}
+        className="w-30 flex justify-center items-center title">
+        {id}
+      </div>
       <div className="flex gap-2.5">
-        <SortableContext items={draggables.map((draggable) => draggable.id)}>
-          {draggables
-            .filter((draggable) => draggable.dz)
-            .map((draggable) => (
-              <Draggable key={draggable.id} draggable={draggable} />
-            ))}
+        <SortableContext items={draggables}>
+          {draggables.map((draggableId) => {
+            const draggable = defaultDraggables?.find(
+              (draggable) => draggable.id === draggableId,
+            );
+            if (!draggable) return null;
+            return <Draggable key={draggableId} draggable={draggable} />;
+          })}
         </SortableContext>
       </div>
-      <div ref={setNodeRef} className="bg-(--yellow) flex-1" />
+      <div ref={setNodeRef} className="flex-1" />
     </div>
   );
 }

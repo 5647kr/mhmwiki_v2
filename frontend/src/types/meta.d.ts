@@ -24,6 +24,11 @@ interface RouletteItem {
   color: string;
 }
 
+interface Custom {
+  type: string[];
+  series: string[];
+}
+
 interface Draggable {
   id: string;
   img: string;
@@ -31,7 +36,7 @@ interface Draggable {
   dz?: string;
 }
 
-interface Custom {
-  type: string[];
-  series: string[];
+interface DropZone {
+  id: string;
+  draggables: string[];
 }

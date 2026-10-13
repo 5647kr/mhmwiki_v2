@@ -13,6 +13,9 @@ interface TierStore {
 
   activeDraggable: undefined | Draggable;
   setActiveDraggable: (item: undefined | Draggable) => void;
+
+  dropZones: DropZone[];
+  setDropZones: (dropZones: DropZone[]) => void;
 }
 
 export const useTierStore = create<TierStore>()((set) => ({
@@ -51,4 +54,10 @@ export const useTierStore = create<TierStore>()((set) => ({
 
   activeDraggable: undefined,
   setActiveDraggable: (item) => set({ activeDraggable: item }),
+
+  dropZones: [],
+  setDropZones: (dropZones) =>
+    set({
+      dropZones: dropZones,
+    }),
 }));

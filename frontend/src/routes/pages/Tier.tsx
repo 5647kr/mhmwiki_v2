@@ -5,16 +5,16 @@ import { useCustomQuery } from "../../hooks/useContentQuery";
 import useMetaQueries from "../../hooks/useMetaQueries";
 import TierFilterList from "../../components/tier/TierFilterList";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { Draggable, DraggableContent } from "../../components/tier/Draggable";
+import { DraggableContent } from "../../components/tier/Draggable";
 import {
   DndContext,
   DragOverlay,
-  type DragEndEvent,
   type DragOverEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
 import DropZone from "../../components/tier/DropZone";
-import { arrayMove, SortableContext } from "@dnd-kit/sortable";
+import { arrayMove } from "@dnd-kit/sortable";
+import FreeDropZone from "../../components/tier/FreeDropZone";
 
 const WEAPONLIST = [
   "대검",
@@ -32,11 +32,15 @@ const WEAPONLIST = [
   "헤비보우건",
   "활",
 ];
+
 export default function Tier() {
   const activeDraggable = useTierStore((state) => state.activeDraggable);
   const setActiveDraggable = useTierStore((state) => state.setActiveDraggable);
   const draggables = useTierStore((state) => state.draggables);
   const setDraggables = useTierStore((state) => state.setDraggables);
+
+  const dropZones = useTierStore((state) => state.dropZones);
+  const setDropZones = useTierStore((state) => state.setDropZones);
 
   const imgUrl = import.meta.env.VITE_IMG_URL;
   const tierType = useTierStore((state) => state.tierType);
@@ -55,13 +59,13 @@ export default function Tier() {
     setSettingActive((settingActive) => !settingActive);
   };
 
-  const items = useMemo(() => {
+  const defaultDraggables: Draggable[] = useMemo(() => {
     if (tierType === "monster") {
       return (contents ?? []).map((item: Content) => ({
         id: item.name,
         name: item.name,
         img: `${imgUrl}${item.img}`,
-        dz: undefined,
+        // dz: undefined,
       }));
     }
 
@@ -70,7 +74,7 @@ export default function Tier() {
         id: weapon,
         name: weapon,
         img: `/icons/${weapon}.webp`,
-        dz: undefined,
+        // dz: undefined,
       }));
     }
 
@@ -78,15 +82,30 @@ export default function Tier() {
       id: item.title,
       name: item.title,
       img: `${imgUrl}${item.id}.webp`,
-      dz: undefined,
+      // dz: undefined,
     }));
   }, [tierType, contents, series?.data, imgUrl]);
 
   useEffect(() => {
-    if (items.length === 0) return;
+    if (defaultDraggables.length === 0) return;
 
-    setDraggables(items);
-  }, [tierType, items, setDraggables]);
+    setDraggables(defaultDraggables);
+
+    const defaultDropzones = [
+      { id: "S", draggables: [] },
+      { id: "A", draggables: [] },
+      { id: "B", draggables: [] },
+      { id: "C", draggables: [] },
+      {
+        id: "free",
+        draggables: defaultDraggables.map((draggable) => draggable.id),
+      },
+    ];
+
+    setDropZones(defaultDropzones);
+  }, [tierType, defaultDraggables, setDraggables, setDropZones]);
+
+  const dropZoneIds = dropZones.map((dz) => dz.id);
 
   // 드래그 함수
 
@@ -102,50 +121,115 @@ export default function Tier() {
 
     const overId = e.over.id as string;
     const activeDraggableId = e.active.id as string;
-    // 빈공간에 배치할 때
-    if (overId === "dropZone") {
-      const newDraggable = { ...activeDraggable, dz: "dropZone" };
+    const currentDropZone = dropZones.find((dz) =>
+      dz.draggables.some((draggable) => draggable === activeDraggableId),
+    );
 
-      const updateDraggables = [
-        ...draggables.filter((draggable) => draggable.id !== activeDraggableId),
-        newDraggable,
+    if (!currentDropZone) return;
+    const currentDropZoneId = currentDropZone.id;
+
+    // 가정1, 빈공간에 배치할 때
+    if (dropZoneIds.includes(overId)) {
+      const dropZone = dropZones.find((dz) => dz.id === overId)!;
+
+      const newDraggables = [
+        ...dropZone.draggables.filter(
+          (draggable) => draggable !== activeDraggableId,
+        ),
+        activeDraggableId,
       ];
 
-      setDraggables(updateDraggables);
+      const updateDropZones = dropZones.map((dz) => {
+        if (dz.id !== overId && dz.id !== currentDropZoneId) return dz;
 
+        if (dz.id === currentDropZoneId && currentDropZoneId !== overId)
+          return {
+            ...dz,
+            draggables: dz.draggables.filter(
+              (draggable) => draggable !== activeDraggableId,
+            ),
+          };
+
+        return { ...dz, draggables: newDraggables };
+      });
+
+      setDropZones(updateDropZones);
       return;
     }
 
-    // 정렬된 SortableContext에 배치할 때
-    const overDraggable = draggables.find(
-      (draggable) => draggable.id === overId,
-    );
-    const overDropZone = !!overDraggable?.dz;
+    // 가정2, 같은 행 안에서의 재정렬할 때
+    else if (
+      currentDropZone.draggables.some((draggable) => draggable === overId)
+    ) {
+      const oldIndex = currentDropZone.draggables.findIndex(
+        (draggable) => draggable === activeDraggableId,
+      );
+      const newIndex = currentDropZone.draggables.findIndex(
+        (draggable) => draggable === overId,
+      );
 
-    const oldIndex = draggables.findIndex(
-      (draggable) => draggable.id === activeDraggableId,
-    );
-    const newIndex = draggables.findIndex(
-      (draggable) => draggable.id === overId,
-    );
+      if (oldIndex === newIndex) return;
 
-    if (oldIndex === newIndex) return;
+      const updateDraggables = arrayMove(
+        currentDropZone.draggables,
+        oldIndex,
+        newIndex,
+      );
 
-    const updateDraggables = arrayMove(draggables, oldIndex, newIndex);
+      const updateDropZones = dropZones.map((dz) => {
+        if (dz.id !== currentDropZoneId) return dz;
 
-    updateDraggables[newIndex] = {
-      ...updateDraggables[newIndex],
-      dz: overDropZone ? "dropZone" : undefined,
-    };
-    setDraggables(updateDraggables);
-    return;
+        return { ...dz, draggables: updateDraggables };
+      });
+
+      setDropZones(updateDropZones);
+      return;
+    }
+
+    // 가정 3. 서로 다른 행에서의 재정렬
+    else if (
+      !currentDropZone.draggables.some((draggable) => draggable === overId)
+    ) {
+      const newDropZone = dropZones.find((dz) =>
+        dz.draggables.some((draggable) => draggable === overId),
+      );
+
+      if (!newDropZone) return dropZones;
+
+      const overIndex = newDropZone.draggables.findIndex(
+        (draggable) => draggable === overId,
+      );
+      const newDraggables = newDropZone.draggables.toSpliced(
+        overIndex,
+        0,
+        activeDraggableId,
+      );
+
+      const updateDropZones = dropZones.map((dz) => {
+        if (dz.id !== currentDropZoneId && dz.id !== newDropZone.id) return dz;
+        else if (dz.id === currentDropZoneId)
+          return {
+            ...dz,
+            draggables: dz.draggables.filter(
+              (draggable) => draggable !== activeDraggableId,
+            ),
+          };
+
+        return { ...dz, draggables: newDraggables };
+      });
+
+      setDropZones(updateDropZones);
+      return;
+    }
+    return dropZones;
   };
 
-  const handleDragEnd = (e: DragEndEvent) => {
+  const handleDragEnd = () => {
     setActiveDraggable(undefined);
   };
 
-  const freeDraggables = draggables.filter((draggable) => !draggable.dz);
+  const freeDropZone = dropZones.find((dz) => dz.id === "free");
+  if (!freeDropZone) return null;
 
   return (
     <>
@@ -186,21 +270,23 @@ export default function Tier() {
       </div>
 
       {/* App */}
-      <div className="w-full max-w-7xl mx-auto px-5 inset-shadow-[0_0_10px_blue]">
+      <div className="w-full max-w-7xl mx-auto px-5 flex flex-col gap-10">
         <DndContext
           onDragStart={handleDragStart}
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}>
-          <DropZone draggables={draggables} />
-
-          <SortableContext
-            items={freeDraggables.map((draggable) => draggable.id)}>
-            <div className="flex flex-wrap gap-2.5">
-              {freeDraggables.map((draggable) => (
-                <Draggable key={draggable.id} draggable={draggable} />
+          <div>
+            {dropZones
+              .filter((dz) => dz.id !== "free")
+              .map((dz) => (
+                <DropZone dropZone={dz} defaultDraggables={defaultDraggables} />
               ))}
-            </div>
-          </SortableContext>
+          </div>
+
+          <FreeDropZone
+            dropZone={freeDropZone}
+            defaultDraggables={defaultDraggables}
+          />
 
           <DragOverlay>
             {activeDraggable && (
