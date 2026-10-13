@@ -1,4 +1,3 @@
-// import useMetaQueries from "../../hooks/useMetaQueries";
 import { useTierStore } from "../../store/tierStore";
 
 export default function TierType() {
@@ -9,11 +8,6 @@ export default function TierType() {
   ];
   const tierType = useTierStore((state) => state.tierType);
   const setTierType = useTierStore((state) => state.setTierType);
-  // const setContentType = useTierStore((state) => state.setContentType);
-  // const { series, type } = useMetaQueries({
-  //   enableType: false,
-  //   enableWeak: false,
-  // });
 
   return (
     <section className="bg-(--white)">
@@ -42,31 +36,6 @@ export default function TierType() {
             );
           })}
         </ul>
-
-        {/* {tierType === "monster" && (
-          <div>
-            <select
-              className="border-b border-(--black) py-2 px-4 small mr-2.5"
-              onChange={(e) => setContentType(e.target.value)}>
-              <option value="전체">시리즈</option>
-              {series.data.map((item: Series) => (
-                <option value={item.id} id={item.id}>
-                  {item.title}
-                </option>
-              ))}
-            </select>
-            <select
-              className="border-b border-(--black) py-2 px-4 small"
-              onChange={(e) => setContentType(e.target.value)}>
-              <option value="전체">종별</option>
-              {type.data.map((item: Type) => (
-                <option value={item.title} id={item.id}>
-                  {item.title}
-                </option>
-              ))}
-            </select>
-          </div>
-        )} */}
       </div>
     </section>
   );
