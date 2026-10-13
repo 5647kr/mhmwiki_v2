@@ -239,7 +239,7 @@ export default function Tier() {
         <div className="w-full max-w-7xl mx-auto px-5">
           <h2 className="heading mb-5">티어표 만들기</h2>
           <p className="paragraph text-(--grey) mt-2.5">
-            시리즈, 몬스터, 무기 중 주제를 선택하고 카드를 드래그해 나만의
+            몬스터, 무기, 작품 중 주제를 선택하고 카드를 드래그해 나만의
             순위를 완성하세요.
           </p>
         </div>
