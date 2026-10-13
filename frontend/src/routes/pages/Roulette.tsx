@@ -74,6 +74,7 @@ export default function Roulette() {
 
   return (
     <>
+      <title>MHMWIKI - 룰렛</title>
       <section className="py-10 bg-(--cream)">
         <div className="w-full max-w-7xl mx-auto px-5">
           <h2 className="heading mb-5">헌터 룰렛</h2>

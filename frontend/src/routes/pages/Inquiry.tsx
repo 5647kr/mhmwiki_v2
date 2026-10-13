@@ -135,6 +135,7 @@ export default function Inquiry() {
 
   return (
     <>
+      <title>MHMWIKI - 제보</title>
       <div className="bg-(--cream)">
         <section className="w-full max-w-7xl mx-auto p-5">
           <div className="flex items-center gap-2.5 pb-5">

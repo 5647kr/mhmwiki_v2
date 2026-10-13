@@ -27,7 +27,7 @@ export const useTierStore = create<TierStore>()((set) => ({
     set({ draggables: items });
   },
 
-  tierType: "weapon",
+  tierType: "monster",
   setTierType: (type) => set({ tierType: type }),
 
   custom: { type: [], series: [] },
