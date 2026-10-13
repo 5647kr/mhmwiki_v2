@@ -48,8 +48,6 @@ export function DraggableContent({
   const tierType = useTierStore((state) => state.tierType);
   const activeDraggableId = useTierStore((state) => state.activeDraggable)?.id;
 
-  console.log(id, activeDraggableId);
-
   return (
     <img
       src={img}

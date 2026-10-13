@@ -97,13 +97,30 @@ export default function Tier() {
     setActiveDraggable(activeDraggable);
   };
 
-  const handleDragEnd = (e: DragEndEvent) => {
-    if (!e.over) {
-      return setActiveDraggable(undefined);
-    }
+  const handleDragOver = (e: DragOverEvent) => {
+    if (!e.over || !activeDraggable) return;
 
     const overId = e.over.id as string;
     const activeDraggableId = e.active.id as string;
+    // 빈공간에 배치할 때
+    if (overId === "dropZone") {
+      const newDraggable = { ...activeDraggable, dz: "dropZone" };
+
+      const updateDraggables = [
+        ...draggables.filter((draggable) => draggable.id !== activeDraggableId),
+        newDraggable,
+      ];
+
+      setDraggables(updateDraggables);
+
+      return;
+    }
+
+    // 정렬된 SortableContext에 배치할 때
+    const overDraggable = draggables.find(
+      (draggable) => draggable.id === overId,
+    );
+    const overDropZone = !!overDraggable?.dz;
 
     const oldIndex = draggables.findIndex(
       (draggable) => draggable.id === activeDraggableId,
@@ -116,10 +133,19 @@ export default function Tier() {
 
     const updateDraggables = arrayMove(draggables, oldIndex, newIndex);
 
+    updateDraggables[newIndex] = {
+      ...updateDraggables[newIndex],
+      dz: overDropZone ? "dropZone" : undefined,
+    };
     setDraggables(updateDraggables);
+    return;
+  };
 
+  const handleDragEnd = (e: DragEndEvent) => {
     setActiveDraggable(undefined);
   };
+
+  const freeDraggables = draggables.filter((draggable) => !draggable.dz);
 
   return (
     <>
@@ -161,16 +187,20 @@ export default function Tier() {
 
       {/* App */}
       <div className="w-full max-w-7xl mx-auto px-5 inset-shadow-[0_0_10px_blue]">
-        <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+        <DndContext
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}>
           <DropZone draggables={draggables} />
 
-          {/* <div className="flex flex-wrap gap-2.5">
-            {draggables
-              .filter((draggable) => !draggable.dz)
-              .map((draggable) => (
+          <SortableContext
+            items={freeDraggables.map((draggable) => draggable.id)}>
+            <div className="flex flex-wrap gap-2.5">
+              {freeDraggables.map((draggable) => (
                 <Draggable key={draggable.id} draggable={draggable} />
               ))}
-          </div> */}
+            </div>
+          </SortableContext>
 
           <DragOverlay>
             {activeDraggable && (
