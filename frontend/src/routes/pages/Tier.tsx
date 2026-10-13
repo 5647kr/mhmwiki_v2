@@ -249,12 +249,17 @@ export default function Tier() {
 
       {/* 몬스터 선택 */}
       <div className="mt-5 w-full max-w-7xl mx-auto px-5">
-        <div className="flex justify-between items-center w-full">
-          <h3 className="subTitle">몬스터 설정</h3>
-          <button type="button" className="p-2.5" onClick={handleSettingActive}>
-            {settingActive ? <ChevronUp /> : <ChevronDown />}
-          </button>
-        </div>
+        {tierType === "monster" && (
+          <div className="flex justify-between items-center w-full">
+            <h3 className="subTitle">몬스터 설정</h3>
+            <button
+              type="button"
+              className="p-2.5"
+              onClick={handleSettingActive}>
+              {settingActive ? <ChevronUp /> : <ChevronDown />}
+            </button>
+          </div>
+        )}
         {tierType === "monster" && settingActive && (
           <>
             <div>
@@ -269,8 +274,7 @@ export default function Tier() {
         )}
       </div>
 
-      {/* App */}
-      <div className="w-full max-w-7xl mx-auto px-5 flex flex-col gap-10">
+      <div className="w-full max-w-7xl mx-auto px-5 flex flex-col gap-10 my-10">
         <DndContext
           onDragStart={handleDragStart}
           onDragOver={handleDragOver}
@@ -279,7 +283,11 @@ export default function Tier() {
             {dropZones
               .filter((dz) => dz.id !== "free")
               .map((dz) => (
-                <DropZone dropZone={dz} defaultDraggables={defaultDraggables} />
+                <DropZone
+                  key={dz.id}
+                  dropZone={dz}
+                  defaultDraggables={defaultDraggables}
+                />
               ))}
           </div>
 

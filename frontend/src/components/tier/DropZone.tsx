@@ -22,13 +22,13 @@ export default function DropZone({
   const backgroundColor = dropZoneColorMap[id as keyof typeof dropZoneColorMap];
 
   return (
-    <div className="border border-(--white) bg-(--grey) h-30 w-full flex">
+    <div className="border border-(--white) bg-(--lgrey) min-h-35 w-full flex">
       <div
         style={{ backgroundColor }}
-        className="w-30 flex justify-center items-center title">
+        className="min-w-30 flex justify-center items-center title">
         {id}
       </div>
-      <div className="flex gap-2.5">
+      <div className="flex flex-wrap gap-2.5 p-2.5">
         <SortableContext items={draggables}>
           {draggables.map((draggableId) => {
             const draggable = defaultDraggables?.find(
@@ -39,7 +39,7 @@ export default function DropZone({
           })}
         </SortableContext>
       </div>
-      <div ref={setNodeRef} className="flex-1" />
+      <div ref={setNodeRef} className="flex-1 flex flex-wrap px-5" />
     </div>
   );
 }
