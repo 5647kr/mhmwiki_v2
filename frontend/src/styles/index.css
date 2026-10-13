@@ -1,0 +1,49 @@
+@import "./tailwind.css";
+
+:root {
+  --red: #e8001c;
+  --darkred: #ff1a35;
+  --black: #0c0c0c;
+  --white: #f2f0eb;
+  --cream: #ede9e0;
+  --grey: #888;
+  --lgrey: #dedad3;
+  --dgrey: #1e1e1e;
+  --yellow: #ffd600;
+  --cyan: #00c8e8;
+  --purple: #7b00ff;
+}
+
+html {
+  font-family: "Noto sans KR";
+  background: var(--white);
+  color: var(--black);
+  letter-spacing: -2.5%;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+svg {
+  width: 20px;
+  height: 20px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+.a11y-hidden {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+}
