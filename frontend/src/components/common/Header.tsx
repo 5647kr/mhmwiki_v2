@@ -71,7 +71,7 @@ export default function Header() {
                 className={({ isActive }) =>
                   `block text-base hover:text-(--red) w-full border-b p-1 ${isActive ? "text-(--red) border-(--red)" : "text-(--grey) border-(--white) md:border-(--black)"}`
                 }
-                to="/inquiry"
+                to="/report"
                 onClick={() => setMenuActive(false)}>
                 문의
               </NavLink>

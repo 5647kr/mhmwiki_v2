@@ -1,10 +1,13 @@
 import { useRouletteStore } from "../../store/rouletteStore";
 import RouletteItem from "./RouletteItem";
+import RouletteItemSkeleton from "./RouletteItemSkeleton";
 
 export default function RouletteList({
   isProcessing,
+  isFetching,
 }: {
   isProcessing: boolean;
+  isFetching: boolean;
 }) {
   const rouletteItems = useRouletteStore((state) => state.rouletteItems);
   const addItem = useRouletteStore((state) => state.addItem);
@@ -24,11 +27,27 @@ export default function RouletteList({
 
       <div>
         <ul className="flex flex-col gap-5">
-          {rouletteItems.map((item, idx) => (
-            <li className="w-full" key={idx}>
-              <RouletteItem item={item} isProcessing={isProcessing} idx={idx} />
-            </li>
-          ))}
+          {isFetching ? (
+            <>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <li key={index}>
+                  <RouletteItemSkeleton />
+                </li>
+              ))}
+            </>
+          ) : (
+            <>
+              {rouletteItems.map((item, idx) => (
+                <li className="w-full" key={idx}>
+                  <RouletteItem
+                    item={item}
+                    isProcessing={isProcessing}
+                    idx={idx}
+                  />
+                </li>
+              ))}
+            </>
+          )}
         </ul>
       </div>
     </div>
