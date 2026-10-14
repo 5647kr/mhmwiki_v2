@@ -15,6 +15,7 @@ import {
 import DropZone from "../../components/tier/DropZone";
 import { arrayMove } from "@dnd-kit/sortable";
 import FreeDropZone from "../../components/tier/FreeDropZone";
+import TierPageSkeleton from "../../components/tier/TierPageSkeleton";
 
 const WEAPONLIST = [
   "대검",
@@ -50,7 +51,7 @@ export default function Tier() {
     enableWeak: false,
   });
 
-  const { data: contents } = useCustomQuery({
+  const { data: contents, isFetching } = useCustomQuery({
     type: "tier",
     custom: custom,
   });
@@ -227,6 +228,7 @@ export default function Tier() {
   const handleDragEnd = () => {
     setActiveDraggable(undefined);
   };
+  if (isFetching) return <TierPageSkeleton />;
 
   const freeDropZone = dropZones.find((dz) => dz.id === "free");
   if (!freeDropZone) return null;

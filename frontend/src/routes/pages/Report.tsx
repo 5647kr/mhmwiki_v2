@@ -12,7 +12,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useHistoryQuery } from "../../hooks/useHistoryQuery";
 
-export default function Inquiry() {
+export default function Report() {
   const menus = [
     {
       id: "error",
@@ -136,6 +136,28 @@ export default function Inquiry() {
   return (
     <>
       <title>MHMWIKI - 제보</title>
+
+      <section className="bg-(--cream)">
+        <div className="w-full max-w-7xl mx-auto p-5">
+          <div className="flex gap-2.5 items-center">
+            <hr className="border border-(--red) w-10" />
+            <strong className="text-(--red) small font-normal">
+              DATA REPORT
+            </strong>
+          </div>
+          <h2 className="my-5 heading font-black">
+            오류 누락
+            <br />
+            데이터 제보
+          </h2>
+
+          <p className="text-(--grey) small ">
+            잘못된 정보를 발견하셨나요? 빠진 데이터가 있나요? 헌터 여러분의
+            제보가 MHMWIKI를 완성합니다. <br /> 모든 제보는 검토 후 반영됩니다.
+          </p>
+        </div>
+      </section>
+
       <div className="bg-(--cream)">
         <section className="w-full max-w-7xl mx-auto p-5">
           <div className="flex items-center gap-2.5 pb-5">
