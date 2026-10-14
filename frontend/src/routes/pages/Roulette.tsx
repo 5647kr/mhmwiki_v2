@@ -39,7 +39,7 @@ export default function Roulette() {
   const [rouletteType, setRouletteType] = useState("monster");
   const [seriesId, setSeriesId] = useState("r");
   const [isProcessing, setIsProcessing] = useState(false);
-  const { data: contents } = useRouletteQuery({
+  const { data: contents, isFetching } = useRouletteQuery({
     seriesId: seriesId,
   });
 
@@ -102,7 +102,7 @@ export default function Roulette() {
         />
 
         <div className="flex-1">
-          <RouletteList isProcessing={isProcessing} />
+          <RouletteList isProcessing={isProcessing} isFetching={isFetching} />
         </div>
       </div>
     </>
