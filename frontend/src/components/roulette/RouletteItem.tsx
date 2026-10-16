@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useRouletteStore } from "../../store/rouletteStore";
 import { Minus, Plus, X } from "lucide-react";
 
@@ -10,10 +11,22 @@ export default function RouletteItem({
   isProcessing: boolean;
   idx: number;
 }) {
+  const rouletteItems = useRouletteStore((state) => state.rouletteItems);
   const updateName = useRouletteStore((state) => state.updateName);
   const removeItem = useRouletteStore((state) => state.removeItem);
   const increaseWeight = useRouletteStore((state) => state.increaseWeight);
   const decreaseWeight = useRouletteStore((state) => state.decreaseWeight);
+  const updateWeight = useRouletteStore((state) => state.updateWeight);
+
+  const totalWeight = useMemo(() => {
+    return rouletteItems.reduce((acc, cur) => acc + cur.weight, 0);
+  }, [rouletteItems]);
+
+  const percentage = useMemo(() => {
+    if (totalWeight === 0) return "0.0";
+    return ((item.weight / totalWeight) * 100).toFixed(1);
+  }, [item.weight, totalWeight]);
+
   return (
     <div className="flex items-center gap-2.5 w-fullx">
       <div
@@ -29,6 +42,7 @@ export default function RouletteItem({
         disabled={isProcessing}
         className="paragraph flex-1 bg-transparent border-b border-(--lgrey) focus:outline-0"
       />
+      <span className="text-(--grey) small">{percentage}%</span>
       <div className="border border-(--lgrey) flex items-center">
         <button
           type="button"
@@ -37,7 +51,14 @@ export default function RouletteItem({
           onClick={() => decreaseWeight(idx)}>
           <Minus />
         </button>
-        <p className="small p-2.5">{item.weight}</p>
+        <input
+          type="text"
+          value={item.weight}
+          onChange={(e) => updateWeight(idx, e.target.value)}
+          disabled={isProcessing}
+          max={999}
+          className="p-2.5 focus:outline-0 border-0 text-center small w-12"
+        />
         <button
           type="button"
           className="text-(--grey) p-2.5 bg-(--cream)"

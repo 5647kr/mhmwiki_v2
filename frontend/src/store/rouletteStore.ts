@@ -9,6 +9,7 @@ interface RouletteStore {
   updateName: (index: number, value: string) => void;
   increaseWeight: (index: number) => void;
   decreaseWeight: (index: number) => void;
+  updateWeight: (index: number, value: string) => void;
 }
 
 export const useRouletteStore = create<RouletteStore>()((set) => ({
@@ -63,6 +64,17 @@ export const useRouletteStore = create<RouletteStore>()((set) => ({
     set((state) => ({
       rouletteItems: state.rouletteItems.map((item, i) =>
         i === index ? { ...item, weight: item.weight - 1 } : item,
+      ),
+    }));
+  },
+
+  updateWeight: (index, value) => {
+    let num = parseInt(value);
+    if (isNaN(num) || num < 1) num = 0;
+
+    set((state) => ({
+      rouletteItems: state.rouletteItems.map((item, i) =>
+        i === index ? { ...item, weight: num } : item,
       ),
     }));
   },

@@ -102,6 +102,11 @@ export default function RouletteDisplay({
   };
 
   const handleAction = () => {
+    if (rouletteItems.find((item) => item.weight === 0)) {
+      toast.error("가중치가 0인 항목이 있습니다. 최소 1이여야 합니다.");
+      return;
+    }
+
     if (rouletteItems.length < 2) {
       toast.error("최소 2개 이상의 항목이 필요합니다.");
       return;
