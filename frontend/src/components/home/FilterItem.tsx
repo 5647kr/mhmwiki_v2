@@ -16,9 +16,18 @@ export default React.memo(function FilterItem({
       ? filterState[table].includes(item.title)
       : filterState[table].includes(item.id);
 
+  console.log(item);
   return (
-    <label className="block border border-(--grey) text-(--grey) text-center hover:border-(--black) hover:text-(--black) w-full p-2 bg-(--white) cursor-pointer has-checked:border-(--black) has-checked:bg-(--black) has-checked:text-(--white)">
-      <span className="subParagraph">{item.title}</span>
+    <label className="block border border-(--grey) text-(--grey) text-center hover:border-(--black) hover:text-(--black) w-full bg-(--white) cursor-pointer has-checked:border-(--black) has-checked:bg-(--black) has-checked:text-(--white)">
+      <span className="subParagraph block p-2">
+        {table === "series" ? (
+          <abbr className="block no-underline" title={(item as Series).koTitle}>
+            {item.title}
+          </abbr>
+        ) : (
+          item.title
+        )}
+      </span>
       <input
         type="checkbox"
         className="a11y-hidden"
