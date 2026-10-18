@@ -261,7 +261,11 @@ export default function Detail() {
                               className={`border  p-2.5 ${isParticipate ? "border-(--red) bg-(--red)" : "border-(--lgrey)  bg-(--white)"}`}>
                               <span
                                 className={`small ${isParticipate ? "text-(--white)" : "text-(--lgrey)"}`}>
-                                {item.title}
+                                <abbr
+                                  title={item.koTitle}
+                                  className="no-underline cursor-pointer">
+                                  {item.title}
+                                </abbr>
                               </span>
                             </li>
                           );
