@@ -7,18 +7,22 @@ import { useOneContentQuery } from "../../hooks/useContentQuery";
 export default function Search() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
-  const { data } = useOneContentQuery({
-    search: input,
+
+  const { refetch } = useOneContentQuery({
+    search: input.trim(),
+    enabled: false,
   });
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
-  const handleSubmitSearch = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmitSearch = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!input.trim()) return;
+
+    const { data } = await refetch();
 
     if (data && data.length > 0) {
       const content = data[0];

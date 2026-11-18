@@ -32,16 +32,18 @@ export function useOneContentQuery({
   id,
   search,
   randomNum,
+  enabled,
 }: {
   id?: string;
   search?: string;
   randomNum?: number;
+  enabled?: boolean;
 }) {
   return useQuery({
     queryKey: ["content", id, search, randomNum],
     queryFn: () => fetchOneContent({ id, search, randomNum }),
     staleTime: 60 * 10 * 3,
-    enabled: !!id || !!search || !!randomNum,
+    enabled: enabled ?? (!!id || !!search || !!randomNum),
   });
 }
 
