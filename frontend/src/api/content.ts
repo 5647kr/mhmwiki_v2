@@ -69,6 +69,7 @@ export async function fetchOneContent({
       url = `${url}/${id}`;
     }
 
+    console.log(search)
     if (search) {
       const trimSearch = search.replace(/\s+/g, "");
 
